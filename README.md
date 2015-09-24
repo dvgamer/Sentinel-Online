@@ -1,20 +1,14 @@
-# Socket.IO bindings for CompoundJS
+# Sentinel Online
 
-## Installation
+## วิธีใช้
 
-    npm install co-socket --save
+    node app.server.js
 
-then add `co-socket` to `config/autoload.js`
+มันไว้ใช้เป็น Webserver สำหรับดูข้อมูลต่างๆ บน MiniPC ที่ใช้เป็น Server อยู่
 
-## Usage
-
-### Add routes to `config/routes.js`
-
-    map.socket('some-event', 'controller#action');
-
-When client emit event `some-event`, then `action` action of controller `controller` will gain control.
-Data passed to the event will be available as `params` variable.
-Calling `send` will call the callback to the current socket.
+1. เปิดเว็บ Webserver ทีเป็น jsx เอง `touno-k.info`
+2. `php-dev.touno-k.info` สำหรับใช้ พัฒนาภาษา PHP
+3. เป็น ftp ด้วยสำหรับ uploadfile
 
 ### `socket()` method is available in any controller
     action('some-action', function () {
