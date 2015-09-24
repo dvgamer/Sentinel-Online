@@ -1,45 +1,21 @@
-# Sentinel Online
+# **Sentinel Online** #
 
-## วิธีใช้
+    node web.touno-k.js
 
-    node app.server.js
+### NodeJS ###
+1. `touno-k.info` เปิดเว็บ Webserver ทีเป็น jsx 
+2. `php.touno-k.info` สำหรับใช้ พัฒนาภาษา PHP
+3. `ftp.touno-k.info:21` สำหรับ uploadfile
+4. `dev.touno-k.info/collection/repositories.git`
 
-มันไว้ใช้เป็น Webserver สำหรับดูข้อมูลต่างๆ บน MiniPC ที่ใช้เป็น Server อยู่
+### MongoDB ###
 
-1. เปิดเว็บ Webserver ทีเป็น jsx เอง `touno-k.info`
-2. `php-dev.touno-k.info` สำหรับใช้ พัฒนาภาษา PHP
-3. เป็น ftp ด้วยสำหรับ uploadfile
 
-### `socket()` method is available in any controller
-    action('some-action', function () {
-        socket().emit('event', {some: 'data'}); // send 'event' to all clients in current session
-        socket(anotherSessionID).emit('hello'); // send 'hello' to another user
-                                                // identified by anotherSessionID
+### MySQL ###
 
-        var clients = socket().connected;       // list of current session clients
-        clients.forEach(function (client) {
-            client.join('room');                // all current session clients join a room
-        });
-    });
+```
+#!javascript
+var a=0;
 
-Any controller action (both socket and non-socket) can emit some event with any client.
+```
 
-### Responding to the current request
-#### Server side:
-`app/controllers/some-controller.js`
-
-    action('join', function () {
-        send({ foo: 'bar' });
-    });
-#### Client side:
-    socket.emit('join', {}, function (data) {
-        console.log(data.foo); // bar
-    });
-
-## Inner structure
-All socket.io connections automatically join a room named after the compound sessionID.
-If you want to communicate with another user you can specify their sessionID as param for the `socket` method.
-
-## License
-
-   MIT
