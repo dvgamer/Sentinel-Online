@@ -1,6 +1,9 @@
 # **Sentinel Online** #
+ระบบพื้นฐานทั้งหมดทำงานบน Ubuntu OS เพื่อความปลอดภัยสูงสุด
 
-    node web.touno-k.js
+* Ubuntu OS วิธีติดตั้ง https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
+* ระบบ Source Control ของ git วิธีติดตั้ง http://tedfelix.com/software/git-server.html
+
 
 ### NodeJS ###
 1. `touno-k.info` เปิดเว็บ Webserver ทีเป็น jsx 
@@ -18,4 +21,3 @@
 var a=0;
 
 ```
-
