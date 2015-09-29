@@ -5,6 +5,17 @@
 * ระบบ Source Control ของ git วิธีติดตั้ง http://tedfelix.com/software/git-server.html
 
 
+```
+#!ubuntu
+
+sudo su
+apt-get install update
+apt-get install dist-upgrade
+apt-get install autoremove
+```
+
+
+
 ### NodeJS ###
 1. `touno-k.info` เปิดเว็บ Webserver ทีเป็น jsx 
 2. `php.touno-k.info` สำหรับใช้ พัฒนาภาษา PHP
