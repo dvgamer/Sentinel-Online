@@ -12,6 +12,14 @@ sudo su
 apt-get install update
 apt-get install dist-upgrade
 apt-get install autoremove
+
+apt-get install --yes build-essential
+apt-get install libcurl3-dev
+
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+apt-get install -y nodejs
+
+npm install pm2 -g --unsafe-perm | npm install pm2-web -g --unsafe-perm
 ```
 
 
