@@ -50,39 +50,34 @@ npm install pm2 -g --unsafe-perm | npm install pm2-web -g --unsafe-perm
 
 
 ### FTP server ###
-    sudo apt-get update
+**Step 1** » ติดตั้ง package
 
-Step 2 » Install VsFTPD package using the below command.
-krizna@leela:~$ sudo apt-get install vsftpd
+    apt-get install vsftpd
 
-Step 3 » After installation open /etc/vsftpd.conf file and make changes as follows.
-Uncomment the below lines (line no:29 and 33).
+**Step 2** » เปิดไฟล์ `/etc/vsftpd.conf` เพื่อแก้ไขบรรทัดต่อไปนี้
+```
+#!javascript
+// Uncomment the below lines (line no:29 and 33).
 write_enable=YES
 local_umask=022
-» Uncomment the below line (line no: 120 ) to prevent access to the other folders outside the Home directory.
+
+// Uncomment the below line (line no: 120 )
 chroot_local_user=YES
-and add the following line at the end.
+
+// add the following line at the end.
 allow_writeable_chroot=YES
-» Add the following lines to enable passive mode.
 pasv_enable=Yes
 pasv_min_port=40000
 pasv_max_port=40100
+```
+    sudo service vsftpd restart
 
-Step 4 » Restart vsftpd service using the below command.
-krizna@leela:~$ sudo service vsftpd restart
+**Step 3** » เพิ่ม user สำหรับใช้ login เข้า ftp
 
-Step 5 » Now ftp server will listen on port 21. Create user with the below command.Use /usr/sbin/nologin shell to prevent access to the bash shell for the ftp users .
-krizna@leela:~$ sudo useradd -m john -s /usr/sbin/nologin
-krizna@leela:~$ sudo passwd john
+    sudo useradd -m john -s /usr/sbin/nologin
+    sudo passwd john
 
-Step 6 » Allow login access for nologin shell . Open /etc/shells and add the following line at the end.
-/usr/sbin/nologin
-
-Now try to connect this ftp server with the username on port 21 using winscp or filezilla client and make sure that user cannot access the other folders outside the home directory.
-
-
-
-
+อ้างอิงจาก : [http://www.krizna.com/ubuntu/setup-ftp-server-on-ubuntu-14-04-vsftpd/](http://www.krizna.com/ubuntu/setup-ftp-server-on-ubuntu-14-04-vsftpd/)
 
 ```
 #!javascript
