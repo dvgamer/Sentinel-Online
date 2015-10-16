@@ -31,9 +31,28 @@ npm install pm2 -g --unsafe-perm | npm install pm2-web -g --unsafe-perm
 4. `dev.touno-k.info/collection/repositories.git`
 
 ### MongoDB ###
+```
+#!ubuntu
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+apt-get update
 
+apt-get install mongodb-org
 
-### MySQL ###
+echo "mongodb-org hold" | sudo dpkg --set-selections
+echo "mongodb-org-server hold" | sudo dpkg --set-selections
+echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+```
+
+MongoDB เนื้อหาของ database ทั้งหมดถูกเก็บไว้ที่ `/var/lib/mongodb` ส่วน logs ถูกเก็บไว้ที่ `/var/log/mongodb` และคุณสามารถแก้ไขค่าพื้นฐานได้จากไฟลล์ `/etc/mongod.conf` ส่วน `systemLog.path` และ storage.dbPath
+
+```
+#!ubuntu
+service mongod start
+service mongod stop
+```
 
 ```
 #!javascript
