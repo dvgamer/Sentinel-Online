@@ -31,28 +31,58 @@ npm install pm2 -g --unsafe-perm | npm install pm2-web -g --unsafe-perm
 4. `dev.touno-k.info/collection/repositories.git`
 
 ### MongoDB ###
-```
-#!ubuntu
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list
-apt-get update
+  MongoDB เนื้อหาของ database ทั้งหมดถูกเก็บไว้ที่ `/var/lib/mongodb` ส่วน logs ถูกเก็บไว้ที่ `/var/log/mongodb` และคุณสามารถแก้ไขค่าพื้นฐานได้จากไฟลล์ `/etc/mongod.conf` ส่วน `systemLog.path` และ storage.dbPath
 
-apt-get install mongodb-org
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+    echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+    apt-get update
 
-echo "mongodb-org hold" | sudo dpkg --set-selections
-echo "mongodb-org-server hold" | sudo dpkg --set-selections
-echo "mongodb-org-shell hold" | sudo dpkg --set-selections
-echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
-echo "mongodb-org-tools hold" | sudo dpkg --set-selections
-```
+    apt-get install mongodb-org
 
-MongoDB เนื้อหาของ database ทั้งหมดถูกเก็บไว้ที่ `/var/lib/mongodb` ส่วน logs ถูกเก็บไว้ที่ `/var/log/mongodb` และคุณสามารถแก้ไขค่าพื้นฐานได้จากไฟลล์ `/etc/mongod.conf` ส่วน `systemLog.path` และ storage.dbPath
+    echo "mongodb-org hold" | sudo dpkg --set-selections
+    echo "mongodb-org-server hold" | sudo dpkg --set-selections
+    echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+    echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+    echo "mongodb-org-tools hold" | sudo dpkg --set-selections
 
-```
-#!ubuntu
-service mongod start
-service mongod stop
-```
+    service mongod start
+    service mongod stop
+
+
+### FTP server ###
+    sudo apt-get update
+
+Step 2 » Install VsFTPD package using the below command.
+krizna@leela:~$ sudo apt-get install vsftpd
+
+Step 3 » After installation open /etc/vsftpd.conf file and make changes as follows.
+Uncomment the below lines (line no:29 and 33).
+write_enable=YES
+local_umask=022
+» Uncomment the below line (line no: 120 ) to prevent access to the other folders outside the Home directory.
+chroot_local_user=YES
+and add the following line at the end.
+allow_writeable_chroot=YES
+» Add the following lines to enable passive mode.
+pasv_enable=Yes
+pasv_min_port=40000
+pasv_max_port=40100
+
+Step 4 » Restart vsftpd service using the below command.
+krizna@leela:~$ sudo service vsftpd restart
+
+Step 5 » Now ftp server will listen on port 21. Create user with the below command.Use /usr/sbin/nologin shell to prevent access to the bash shell for the ftp users .
+krizna@leela:~$ sudo useradd -m john -s /usr/sbin/nologin
+krizna@leela:~$ sudo passwd john
+
+Step 6 » Allow login access for nologin shell . Open /etc/shells and add the following line at the end.
+/usr/sbin/nologin
+
+Now try to connect this ftp server with the username on port 21 using winscp or filezilla client and make sure that user cannot access the other folders outside the home directory.
+
+
+
+
 
 ```
 #!javascript
