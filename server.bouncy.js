@@ -1,45 +1,33 @@
-var MongoClient = require('mongodb').MongoClient, assert = require('assert');
-var bouncy = require('bouncy'), ini = require('iniparser'), Q = require('q');
-
-var url = 'mongodb://192.168.10.217:27017/domain';
-
+var bouncy = require('bouncy'),assert = require('assert'), ini = require('iniparser'), Q = require('q');
 var server = bouncy(function (req, res, bounce) {
-    // var deferred = Q.defer();
 
-    // Q.fcall(promisedStep1)
-    // .then(promisedStep2)
-    // .then(promisedStep3)
-    // .then(promisedStep4)
-    // .then(function (value4) {
-    //     // Do something with value4
-    // })
-    // .catch(function (error) {
-    //     // Handle any error from all above steps
-    // })
-    // .done();
+    var configuration = function(filename) {
+        var deferred = Q.defer();
+        ini.parse(filename, function(err, data){
+            if (err) { deferred.reject(err); }
+            deferred.resolve(data);
+        });
+        return deferred.promise;
+    }
 
-    // FS.readFile("foo.txt", "utf-8", function (error, text) {
-    //     if (error) {
-    //         deferred.reject(new Error(error));
-    //     } else {
-    //         deferred.resolve(text);
-    //     }
-    // });
-    // return deferred.promise;
+    configuration('./lib/config.ini').then(function (config) {
+        var db = require('monk')(config.database.ip+':'+config.database.port+'/'+config.database.name);
 
-    // ini.parse('./config.ini', function(err,data){
-        
-    // });
-    
-
-    MongoClient.connect(url, function(err, db) {
-      assert.equal(null, err);
-      console.log("Connected", req.headers.host,"correctly to server.");
-      db.close();
-
-      bounce(8002);
+        if(/192.168.[\d|.]+/ig.exec(req.headers.host)) {
+            console.log('>>>', req.connection.remoteAddress, ':', config.web.port);
+            bounce(config.web.port);
+        } else {
+            db.get('map_port').find({ id: req.headers.host }, function (err, item){
+                assert.equal(null, err);
+                assert.noEqual([], item);
+                bounce(item.port);
+                db.close();
+                console.log('>>>', req.connection.remoteAddress, ':', item.port);
+            });
+        }
+    }, function (error) {
+        console.log('error');
     });
-
 
 });
 
