@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="author" content="Mr.Kunanek Thongkam">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Touno.K Client</title>
+<!--[if IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<script language="javascript" src="/libs/js/jquery-2.0.3.min.js"></script>
+<link rel="stylesheet" href="/libs/css/html5reset.css" type="text/css">
+<link rel="stylesheet" href="/libs/css/default_css.css" type="text/css">
+<link rel="stylesheet" href="/libs/css/webfont.css" type="text/css">
+
+<link rel="shortcut icon" href="/libs/GhostIcon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="libs/GhostIcon.ico">
+<link rel="apple-touch-icon" sizes="72x72" href="libs/GhostIcon.ico">
+<link rel="apple-touch-icon" sizes="144x144" href="libs/GhostIcon.ico">
+
+<script type="text/javascript">
+    
+var CallbackException = function(msg){
+    this.Message = msg;
+}
+
+$(function(){
+	var XHR = { abort: function(){} };
+	try {
+        if(window.history == undefined) throw new CallbackException('Browser your not support.');
+
+        var CallbackState = function(evt) {
+            var element = null;
+            var state = /(http|https):\/\/([^\/]*)\/([^\/]*)/ig.exec(document.location);
+            
+            if(state[3] === "") {
+                element = $('#content-navigator ul li:first').addClass('selected');
+            } else {
+                $('#content-navigator ul li').each(function(i, e){
+                    if($(e).attr('dir') == state[3]) { element = $(e).addClass('selected'); return false; }
+                });
+            }
+            
+            if(event.state == undefined) { // Reload Page Event
+
+            } else { // Back and Forword Page Event
+
+            }
+        }
+        
+
+        
+        $('#content-navigator ul li').bind('click', function(){
+            history.pushState({}, $(this).text(), "/" + ($(this).attr('dir')!=="" ? $(this).attr('dir')+"/" : ""));
+			
+            $('#content-navigator ul li').removeClass('selected');
+            $(this).addClass('selected');
+            
+			XHR.abort();
+			XHR = $.ajax({
+				url: "/component/"+ $(this).attr('name'),
+				method: "POST",
+				dataType: "html",
+				error: function() {
+					console.log("error");
+				},
+				success: function(html) {
+					$('td#panel-component').html(html);
+				}
+			});
+			
+        });
+        
+        window.onpopstate = CallbackState;
+        CallbackState();
+        //throw new CallbackException('aaaaaaa');
+	} catch(ex) {
+        $('#content-navigator').hide();
+		$('#content-main panel').html(ex.Message);
+	}
+});
+
+</script>
+</head>
+<body>
+<div id="content-background">
+    <div id="content-ground">
+    </div>
+</div>
+<div id="content-navigator">
+    <table id="panel-table" border="0" cellspacing="0" cellpadding="0" style="margin:auto">
+        <tr>
+            <td>
+                <ul>
+                    <% for(var i in menu) { %>
+                    <li dir="<%= menu[i].dir %>" name="<%= menu[i].id %>"><%= menu[i].name %></li>
+                    <% } %>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="content-main">
+    <table id="panel-table" border="0" cellspacing="0" cellpadding="0" style="margin:auto">
+        <tr>
+            <td id="panel-component" align="left" style="padding-top:20px"></td>
+        </tr>
+        <tr>
+            <td align="right">Designed by <strong><a href="http://www.facebook.com/dvgamer" target="_blank">Touno.K &copy; Copyright</a></strong> | Powered by <strong>NodeJS</strong></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

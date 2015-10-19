@@ -1,0 +1,7 @@
+[
+    { "id": "__home", "name": "Home", "dir" : "", "com" : "main" },
+    { "id": "__blog", "name": "Blog", "dir" : "content-blog", "com" : "content-blog" }, 
+    { "id": "__store", "name": "Anime", "dir" : "store-anime", "com" : "store-anime" }, 
+    { "id": "__dev", "name": "Develop", "dir" : "develop-tools", "com" : "develop-tools" },
+    { "id": "__dl", "name": "Download", "dir" : "download-center", "com" : "download-center" }
+]
