@@ -1,0 +1,21 @@
+{
+  "name": "Sentinel-Online",
+  "version": "0.0.1",
+  "description": "with linux server",
+  "main": "server.bouncy.js",
+  "dependencies": {
+    "bouncy": "^3.2.2",
+    "mongodb": "^2.0.46",
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/dvgamer/sentinel-online.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
