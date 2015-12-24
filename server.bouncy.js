@@ -1,11 +1,14 @@
+var debug = require('debug')('bouncy');
 var bouncy = require('bouncy'),assert = require('assert'), ini = require('iniparser'), Q = require('q');
 var server = bouncy(function (req, res, bounce) {
+    debug('bouncy listen %s', 80);
 
     var configuration = function(filename) {
         var deferred = Q.defer();
+        debug('filename', filename);
         ini.parse(filename, function(err, data){
-            if (err) { deferred.reject(err); }
-            deferred.resolve(data);
+            
+            if (err) { deferred.reject(err); } else { deferred.resolve(data); }
         });
         return deferred.promise;
     }

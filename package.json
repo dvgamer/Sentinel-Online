@@ -7,6 +7,7 @@
     "bouncy": "^3.2.2",
     "bson": "^0.4.19",
     "connect-url-rewrite": "^0.1.0",
+    "debug": "^2.2.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "iniparser": "^1.0.5",
